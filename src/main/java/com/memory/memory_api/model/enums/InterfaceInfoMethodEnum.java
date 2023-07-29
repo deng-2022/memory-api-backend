@@ -1,4 +1,8 @@
+<<<<<<< HEAD:src/main/java/com/memory/memory_api/model/enums/InterfaceInfoMethodEnum.java
 package com.memory.memory_api.model.enums;
+=======
+package com.yupi.springbootinit.model.enums;
+>>>>>>> 89eac19 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/model/enums/InterfaceInfoMethodEnum.java
 
 /**
  * 接口请求方法
