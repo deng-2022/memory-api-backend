@@ -1,42 +1,18 @@
 package com.yupi.springbootinit.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.alibaba.excel.util.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
 import com.yupi.springbootinit.common.ErrorCode;
-import com.yupi.springbootinit.constant.CommonConstant;
 import com.yupi.springbootinit.exception.BusinessException;
-import com.yupi.springbootinit.exception.ThrowUtils;
 import com.yupi.springbootinit.mapper.InterfaceInfoMapper;
-import com.yupi.springbootinit.model.dto.interfaceInfo.InterfaceInfoQueryRequest;
 import com.yupi.springbootinit.model.entity.InterfaceInfo;
-import com.yupi.springbootinit.model.entity.User;
-import com.yupi.springbootinit.model.vo.UserVO;
 import com.yupi.springbootinit.service.InterfaceInfoService;
 import com.yupi.springbootinit.service.UserService;
-import com.yupi.springbootinit.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.sort.SortBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.core.SearchHit;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 帖子服务实现
@@ -52,17 +28,88 @@ public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, I
     @Resource
     private UserService userService;
 
+    private static final int MAX_NAME_LENGTH = 50;
+    private static final int MAX_DESCRIPTION_LENGTH = 256;
+    private static final int MAX_URL_LENGTH = 512;
+    private static final int MAX_METHOD_LENGTH = 256;
+
     /**
-     * 参数校验
+     * 新增接口校验
      *
-     * @param interfaceInfo
-     * @param add
+     * @param interfaceInfo 新增接口参数
      */
     @Override
-    public void validInterfaceInfo(InterfaceInfo interfaceInfo, boolean add) {
+    public void addInterfaceInfo(InterfaceInfo interfaceInfo) {
         if (interfaceInfo == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+
+        String name = interfaceInfo.getName();
+        String description = interfaceInfo.getDescription();
+        String url = interfaceInfo.getUrl();
+        String method = interfaceInfo.getMethod();
+
+        // 校验名称
+        if (StringUtils.isNotBlank(name) && name.length() > MAX_NAME_LENGTH) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "名称不符合要求");
+        }
+
+        // 校验描述
+        if (StringUtils.isNotBlank(description) && description.length() > MAX_DESCRIPTION_LENGTH) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "描述不符合要求");
+        }
+
+        // 校验接口地址
+        if (StringUtils.isNotBlank(url) && url.length() > MAX_URL_LENGTH) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口地址不符合要求");
+        }
+
+        // 校验请求类型
+        if (StringUtils.isNotBlank(method) && method.length() > MAX_METHOD_LENGTH) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "请求类型不符合要求");
+        }
+
+        // 校验其他字段...
+    }
+
+    @Override
+    public void updateInterfaceInfo(InterfaceInfo interfaceInfo) {
+        if (interfaceInfo == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        Long id = interfaceInfo.getId();
+        String name = interfaceInfo.getName();
+        String description = interfaceInfo.getDescription();
+        String url = interfaceInfo.getUrl();
+        String method = interfaceInfo.getMethod();
+
+        // 校验名称
+        if (id == null || id < 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "id不符合要求");
+        }
+
+        // 校验名称
+        if (StringUtils.isNotBlank(name) && name.length() > MAX_NAME_LENGTH) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "名称不符合要求");
+        }
+
+        // 校验描述
+        if (StringUtils.isNotBlank(description) && description.length() > MAX_DESCRIPTION_LENGTH) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "描述不符合要求");
+        }
+
+        // 校验接口地址
+        if (StringUtils.isNotBlank(url) && url.length() > MAX_URL_LENGTH) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口地址不符合要求");
+        }
+
+        // 校验请求类型
+        if (StringUtils.isNotBlank(method) && method.length() > MAX_METHOD_LENGTH) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "请求类型不符合要求");
+        }
+
+        // 校验其他字段...
     }
 }
 

@@ -20,6 +20,7 @@ import com.yupi.springbootinit.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -56,7 +57,7 @@ public class InterfaceInfoController {
 
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         BeanUtils.copyProperties(interfaceInfoAddRequest, interfaceInfo);
-        interfaceInfoService.validInterfaceInfo(interfaceInfo, true);
+        interfaceInfoService.addInterfaceInfo(interfaceInfo);
 
         User loginUser = userService.getLoginUser(request);
         interfaceInfo.setUserId(loginUser.getId());
@@ -77,7 +78,7 @@ public class InterfaceInfoController {
      */
     @PostMapping("/delete")
     public BaseResponse<Boolean> deleteInterfaceInfo(@RequestBody DeleteRequest deleteRequest, HttpServletRequest request) {
-        if (deleteRequest == null || deleteRequest.getId() <= 0) {
+        if (deleteRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
@@ -106,13 +107,13 @@ public class InterfaceInfoController {
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updateInterfaceInfo(@RequestBody InterfaceInfoUpdateRequest interfaceInfoUpdateRequest) {
-        if (interfaceInfoUpdateRequest == null || interfaceInfoUpdateRequest.getId() <= 0) {
+        if (interfaceInfoUpdateRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         BeanUtils.copyProperties(interfaceInfoUpdateRequest, interfaceInfo);
-        interfaceInfoService.validInterfaceInfo(interfaceInfo, false);
+        interfaceInfoService.updateInterfaceInfo(interfaceInfo);
 
         long id = interfaceInfoUpdateRequest.getId();
         InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
@@ -154,7 +155,7 @@ public class InterfaceInfoController {
     @PostMapping("/list/page")
     public BaseResponse<Page<InterfaceInfo>> listInterfaceInfoByPage(@RequestBody InterfaceInfoQueryRequest interfaceInfoQueryRequest,
                                                                      HttpServletRequest request) {
-        if (interfaceInfoQueryRequest == null || interfaceInfoQueryRequest.getId() <= 0) {
+        if (interfaceInfoQueryRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
 
@@ -163,7 +164,7 @@ public class InterfaceInfoController {
 
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         BeanUtils.copyProperties(interfaceInfoQueryRequest, interfaceInfo);
-        interfaceInfoService.validInterfaceInfo(interfaceInfo, false);
+        interfaceInfoService.addInterfaceInfo(interfaceInfo);
 
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
