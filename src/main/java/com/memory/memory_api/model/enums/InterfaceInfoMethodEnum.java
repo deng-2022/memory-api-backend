@@ -1,12 +1,19 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 07df87f (模拟接口初步实现)
 <<<<<<< HEAD:src/main/java/com/memory/memory_api/model/enums/InterfaceInfoMethodEnum.java
 package com.memory.memory_api.model.enums;
 =======
 package com.yupi.springbootinit.model.enums;
+<<<<<<< HEAD
 >>>>>>> 89eac19 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/model/enums/InterfaceInfoMethodEnum.java
 =======
 package com.memory.memory_api.model.enums;
 >>>>>>> e32758e (重构 抽取公共服务)
+=======
+>>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/model/enums/InterfaceInfoMethodEnum.java
+>>>>>>> 07df87f (模拟接口初步实现)
 
 /**
  * 接口请求方法
