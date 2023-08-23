@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/memory/memory_api/controller/InterfaceInfoController.java
+=======
+>>>>>>> dd943cf (重构 抽取公共服务)
 package com.memory.memory_api.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,6 +23,7 @@ import com.memory.memory_api.service.InterfaceInfoService;
 import com.memory.memory_api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+<<<<<<< HEAD
 =======
 package com.yupi.springbootinit.controller;
 
@@ -42,6 +46,8 @@ import com.yupi.springbootinit.service.InterfaceInfoService;
 import com.yupi.springbootinit.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 >>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/controller/InterfaceInfoController.java
+=======
+>>>>>>> dd943cf (重构 抽取公共服务)
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,12 +65,17 @@ import javax.servlet.http.HttpServletRequest;
 public class InterfaceInfoController {
     @Resource
     private InterfaceInfoService interfaceInfoService;
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/memory/memory_api/controller/InterfaceInfoController.java
     @Resource
     private MemoryClient memoryClient;
 =======
 
 >>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/controller/InterfaceInfoController.java
+=======
+    @Resource
+    private MemoryClient memoryClient;
+>>>>>>> dd943cf (重构 抽取公共服务)
     @Resource
     private UserService userService;
 
@@ -80,10 +91,14 @@ public class InterfaceInfoController {
     @PostMapping("/add")
     public BaseResponse<Long> addInterfaceInfo(@RequestBody InterfaceInfoAddRequest interfaceInfoAddRequest,
                                                HttpServletRequest request) {
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/memory/memory_api/controller/InterfaceInfoController.java
         // controller校验参数
 =======
 >>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/controller/InterfaceInfoController.java
+=======
+        // controller校验参数
+>>>>>>> dd943cf (重构 抽取公共服务)
         if (interfaceInfoAddRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -111,10 +126,14 @@ public class InterfaceInfoController {
      */
     @PostMapping("/delete")
     public BaseResponse<Boolean> deleteInterfaceInfo(@RequestBody DeleteRequest deleteRequest, HttpServletRequest request) {
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/memory/memory_api/controller/InterfaceInfoController.java
         // controller校验参数
 =======
 >>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/controller/InterfaceInfoController.java
+=======
+        // controller校验参数
+>>>>>>> dd943cf (重构 抽取公共服务)
         if (deleteRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -144,10 +163,14 @@ public class InterfaceInfoController {
     @PostMapping("/update")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updateInterfaceInfo(@RequestBody InterfaceInfoUpdateRequest interfaceInfoUpdateRequest) {
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/memory/memory_api/controller/InterfaceInfoController.java
         // controller校验参数
 =======
 >>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/controller/InterfaceInfoController.java
+=======
+        // controller校验参数
+>>>>>>> dd943cf (重构 抽取公共服务)
         if (interfaceInfoUpdateRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -172,10 +195,14 @@ public class InterfaceInfoController {
      */
     @GetMapping("/get")
     public BaseResponse<InterfaceInfo> getInterfaceInfoById(long id, HttpServletRequest request) {
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/memory/memory_api/controller/InterfaceInfoController.java
         // controller校验参数
 =======
 >>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/controller/InterfaceInfoController.java
+=======
+        // controller校验参数
+>>>>>>> dd943cf (重构 抽取公共服务)
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -200,10 +227,14 @@ public class InterfaceInfoController {
     @PostMapping("/list/page")
     public BaseResponse<Page<InterfaceInfo>> listInterfaceInfoByPage(@RequestBody InterfaceInfoQueryRequest interfaceInfoQueryRequest,
                                                                      HttpServletRequest request) {
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/memory/memory_api/controller/InterfaceInfoController.java
         // controller校验参数
 =======
 >>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/controller/InterfaceInfoController.java
+=======
+        // controller校验参数
+>>>>>>> dd943cf (重构 抽取公共服务)
         if (interfaceInfoQueryRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -221,7 +252,10 @@ public class InterfaceInfoController {
         Page<InterfaceInfo> interfaceInfoPage = interfaceInfoService.page(new Page<>(current, size));
         return ResultUtils.success(interfaceInfoPage);
     }
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/com/memory/memory_api/controller/InterfaceInfoController.java
+=======
+>>>>>>> dd943cf (重构 抽取公共服务)
 
     /**
      * 发布
@@ -324,6 +358,9 @@ public class InterfaceInfoController {
         String usernameByPost = tempClient.getUserByPost(user);
         return ResultUtils.success(usernameByPost);
     }
+<<<<<<< HEAD
 =======
 >>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/controller/InterfaceInfoController.java
+=======
+>>>>>>> dd943cf (重构 抽取公共服务)
 }
