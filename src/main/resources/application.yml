@@ -96,6 +96,7 @@ memory-api:
     access-key: memory
     secret-key: 12345678
 
+<<<<<<< HEAD
 
 dubbo:
   application:
@@ -107,3 +108,5 @@ dubbo:
     id: nacos-registry
     address: nacos://localhost:8848
 
+=======
+>>>>>>> e32758e (重构 抽取公共服务)

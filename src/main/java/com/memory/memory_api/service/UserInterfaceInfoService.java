@@ -9,6 +9,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2023-08-23 14:29:17
 */
 public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
+<<<<<<< HEAD
     boolean invokeCount(long interfaceInfoId, long userId);
+=======
+>>>>>>> e32758e (重构 抽取公共服务)
 
 }

@@ -14,7 +14,12 @@ import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 // todo 如需开启 Redis，须移除 exclude 中的内容
 @SpringBootApplication(exclude = {RedisAutoConfiguration.class})
 @MapperScan("com.memory.memory_api.mapper")
+<<<<<<< HEAD
 //@EnableDubbo
+=======
+@EnableScheduling
+@EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
+>>>>>>> e32758e (重构 抽取公共服务)
 public class MainApplication {
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);
