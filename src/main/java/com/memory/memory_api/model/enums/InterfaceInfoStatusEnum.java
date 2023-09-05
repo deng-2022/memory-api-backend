@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD:src/main/java/com/memory/memory_api/model/enums/InterfaceInfoStatusEnum.java
 package com.memory.memory_api.model.enums;
-=======
-package com.yupi.springbootinit.model.enums;
->>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/model/enums/InterfaceInfoStatusEnum.java
-=======
-package com.memory.memory_api.model.enums;
->>>>>>> dd943cf (重构 抽取公共服务)
 
 /**
  * 接口状态
@@ -18,21 +10,10 @@ package com.memory.memory_api.model.enums;
  */
 
 public enum InterfaceInfoStatusEnum {
-<<<<<<< HEAD
-<<<<<<< HEAD:src/main/java/com/memory/memory_api/model/enums/InterfaceInfoStatusEnum.java
+
     ONLINE(1, "发布"),
 
     OFFLINE(0, "下线");
-=======
-    USUAL(0, "正常"),
-
-    ERROR(1, "错误");
->>>>>>> b1096f4 (模拟接口初步实现):src/main/java/com/yupi/springbootinit/model/enums/InterfaceInfoStatusEnum.java
-=======
-    ONLINE(1, "发布"),
-
-    OFFLINE(0, "下线");
->>>>>>> dd943cf (重构 抽取公共服务)
 
     private final int value;
     private final String text;

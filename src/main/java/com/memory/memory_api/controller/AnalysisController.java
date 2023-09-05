@@ -46,12 +46,14 @@ public class AnalysisController {
         List<UserInterfaceInfo> userInterfaceInfoList = userInterfaceInfoMapper.listTopInvokeInterfaceInfo(3);
         Map<Long, List<UserInterfaceInfo>> interfaceInfoIdObjMap = userInterfaceInfoList.stream()
                 .collect(Collectors.groupingBy(UserInterfaceInfo::getInterfaceInfoId));
+
         QueryWrapper<InterfaceInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("id", interfaceInfoIdObjMap.keySet());
         List<InterfaceInfo> list = interfaceInfoService.list(queryWrapper);
         if (CollectionUtils.isEmpty(list)) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR);
         }
+
         List<InterfaceInfoVO> interfaceInfoVOList = list.stream().map(interfaceInfo -> {
             InterfaceInfoVO interfaceInfoVO = new InterfaceInfoVO();
             BeanUtils.copyProperties(interfaceInfo, interfaceInfoVO);
@@ -59,6 +61,7 @@ public class AnalysisController {
             interfaceInfoVO.setTotalNum(totalNum);
             return interfaceInfoVO;
         }).collect(Collectors.toList());
+
         return ResultUtils.success(interfaceInfoVOList);
     }
 }
