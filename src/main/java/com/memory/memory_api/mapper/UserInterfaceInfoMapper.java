@@ -17,9 +17,13 @@ import java.util.List;
 public interface UserInterfaceInfoMapper extends BaseMapper<UserInterfaceInfo> {
 <<<<<<< HEAD
     List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int limit);
+<<<<<<< HEAD
 =======
 
 >>>>>>> e32758e (重构 抽取公共服务)
+=======
+
+>>>>>>> 0843f19 (根据调用接口id 调用不同的接口)
 }
 
 

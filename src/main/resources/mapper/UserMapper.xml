@@ -30,4 +30,8 @@
         createTime,updateTime,isDelete,
         accessKey,secretKey
     </sql>
+
+    <select id="userList2" resultType="com.example.memorycommen.model.entity.User">
+        select * from user where userRole = #{role};
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 07df87f (模拟接口初步实现)
 =======
@@ -23,6 +24,9 @@ package com.memory.memory_api.model.enums;
 package com.memory.memory_api.model.enums;
 >>>>>>> dd943cf (重构 抽取公共服务)
 >>>>>>> c0301db (重构 抽取公共服务)
+=======
+package com.memory.memory_api.model.enums;
+>>>>>>> 0843f19 (根据调用接口id 调用不同的接口)
 
 /**
  * 接口状态
@@ -34,6 +38,7 @@ package com.memory.memory_api.model.enums;
  */
 
 public enum InterfaceInfoStatusEnum {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -67,6 +72,12 @@ public enum InterfaceInfoStatusEnum {
     OFFLINE(0, "下线");
 >>>>>>> dd943cf (重构 抽取公共服务)
 >>>>>>> c0301db (重构 抽取公共服务)
+=======
+
+    ONLINE(1, "发布"),
+
+    OFFLINE(0, "下线");
+>>>>>>> 0843f19 (根据调用接口id 调用不同的接口)
 
     private final int value;
     private final String text;
