@@ -6,7 +6,6 @@
 
     <resultMap id="BaseResultMap" type="com.example.memorycommen.model.entity.UserInterfaceInfo">
             <id property="id" column="id" jdbcType="BIGINT"/>
-<<<<<<< HEAD
             <result property="userId" column="userId" jdbcType="BIGINT"/>
             <result property="interfaceInfoId" column="interfaceInfoId" jdbcType="BIGINT"/>
             <result property="totalNum" column="totalNum" jdbcType="INTEGER"/>
@@ -15,16 +14,6 @@
             <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
             <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
-=======
-            <result property="userid" column="userId" jdbcType="BIGINT"/>
-            <result property="interfaceinfoid" column="interfaceInfoId" jdbcType="BIGINT"/>
-            <result property="totalnum" column="totalNum" jdbcType="INTEGER"/>
-            <result property="leftnum" column="leftNum" jdbcType="INTEGER"/>
-            <result property="status" column="status" jdbcType="INTEGER"/>
-            <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
-            <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
-            <result property="isdelete" column="isDelete" jdbcType="TINYINT"/>
->>>>>>> e32758e (重构 抽取公共服务)
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -32,11 +21,9 @@
         totalNum,leftNum,status,
         createTime,updateTime,isDelete
     </sql>
-<<<<<<< HEAD
+
     <select id="listTopInvokeInterfaceInfo" resultType="com.example.memorycommen.model.entity.UserInterfaceInfo">
         select interfaceInfoId, sum(totalNum) as totalNum from user_interface_info group by interfaceInfoId
         order by totalNum desc limit #{limit};
     </select>
-=======
->>>>>>> e32758e (重构 抽取公共服务)
 </mapper>

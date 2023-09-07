@@ -1,8 +1,13 @@
 package com.memory.memory_api.model.vo;
 
-<<<<<<< HEAD
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.example.memorycommen.model.entity.InterfaceInfo;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * 接口信息表
@@ -12,27 +17,17 @@ import lombok.Data;
 @Data
 public class InterfaceInfoVO extends InterfaceInfo {
 
-    /**s
+    /**
+     * s
      * 调用次数
      */
     private Integer totalNum;
 
-=======
-import com.baomidou.mybatisplus.annotation.*;
-import lombok.Data;
 
-import java.io.Serializable;
-import java.util.Date;
-
-/**
- * 接口信息表
- * @TableName interface_info
- */
-@TableName(value ="interface_info")
-@Data
-public class InterfaceInfoVO implements Serializable {
     /**
-     * 主键
+     * 接口信息表
+     *
+     * @TableName interface_info
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
@@ -54,6 +49,7 @@ public class InterfaceInfoVO implements Serializable {
      */
     @TableField(value = "url")
     private String url;
+
 
     /**
      * 请求头
@@ -110,6 +106,5 @@ public class InterfaceInfoVO implements Serializable {
     private Integer isDelete;
 
     @TableField(exist = false)
->>>>>>> e32758e (重构 抽取公共服务)
     private static final long serialVersionUID = 1L;
 }

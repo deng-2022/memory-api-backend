@@ -163,18 +163,6 @@ spring:
 
 3）移除 `MainApplication` 类开头 `@SpringBootApplication` 注解内的 exclude 参数：
 
-修改前：
-
-```java
-@SpringBootApplication(exclude = {RedisAutoConfiguration.class})
-```
-
-修改后：
-
-
-```java
-@SpringBootApplication
-```
 
 ### Elasticsearch 搜索引擎
 

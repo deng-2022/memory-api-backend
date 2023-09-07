@@ -5,6 +5,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 主类（项目启动入口）
@@ -15,20 +17,11 @@ import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 // todo 如需开启 Redis，须移除 exclude 中的内容
 @SpringBootApplication(exclude = {RedisAutoConfiguration.class})
 @MapperScan("com.memory.memory_api.mapper")
-<<<<<<< HEAD
-<<<<<<< HEAD
-//@EnableDubbo
-=======
 @EnableScheduling
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
->>>>>>> e32758e (重构 抽取公共服务)
-=======
 @EnableDubbo
->>>>>>> 0843f19 (根据调用接口id 调用不同的接口)
 public class MainApplication {
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);
     }
-
-
 }

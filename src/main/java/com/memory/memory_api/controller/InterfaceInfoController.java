@@ -3,7 +3,6 @@ package com.memory.memory_api.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.memorycommen.model.entity.InterfaceInfo;
 import com.example.memorycommen.model.entity.User;
-import com.google.gson.Gson;
 import com.memory.clientsdk.client.MemoryClient;
 import com.memory.memory_api.annotation.AuthCheck;
 import com.memory.memory_api.common.*;
@@ -41,8 +40,8 @@ public class InterfaceInfoController {
     private MemoryClient memoryClient;
     @Resource
     private UserService userService;
-
-    private final static Gson GSON = new Gson();
+    @Resource
+    InterfaceIdSource interfaceIdSource;
 
     /**
      * 创建接口
@@ -275,15 +274,11 @@ public class InterfaceInfoController {
         User LoginUser = userService.getLoginUser(request);
         String accessKey = LoginUser.getAccessKey();
         String secretKey = LoginUser.getSecretKey();
-
         MemoryClient tempClient = new MemoryClient(accessKey, secretKey);
-        Gson gson = new Gson();
-        com.memory.clientsdk.model.User user = gson.fromJson(userRequestParams, com.memory.clientsdk.model.User.class);
-        //TODO 根据不同地址调用对应接口
-        // 根据前端传回的信息获取相应的处理逻辑
-        InterfaceIdSource.invokeInterfaceById(id);
 
-        String usernameByPost = tempClient.getUserByPost(user);
-        return ResultUtils.success(usernameByPost);
+        //TODO 根据不同地址调用对应接口
+        String result = interfaceIdSource.invokeInterfaceById(id, userRequestParams, tempClient);
+
+        return ResultUtils.success(result);
     }
 }
