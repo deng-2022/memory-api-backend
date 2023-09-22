@@ -1,0 +1,37 @@
+server:
+  port: 8090
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  # 网关过滤
+  cloud:
+    gateway:
+      routes:
+        - id: memory-api
+          uri: http://localhost:8123
+          predicates:
+            - Path=/api/**
+        - id: baidu
+          uri: https://www.baidu.com
+          predicates:
+            - Path=/baidu/**
+        - id: blog
+          uri: https://deng-2022.gitee.io/blog/
+          predicates:
+            - Path=/blog/**
+
+dubbo:
+  application:
+    name: dubbo-springboot-demo-client
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos-registry
+    address: nacos://localhost:8848
+
+
