@@ -1,11 +1,14 @@
+
 server:
   port: 8123
   servlet:
     context-path: /api
+
 spring:
+  # 服务名称
   application:
     name: memory-client
-
+  # MySQL 管理
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/memory_api

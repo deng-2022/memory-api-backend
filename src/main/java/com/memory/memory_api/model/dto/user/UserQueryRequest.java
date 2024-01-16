@@ -1,9 +1,10 @@
 package com.memory.memory_api.model.dto.user;
 
-import com.memory.memory_api.common.PageRequest;
-import java.io.Serializable;
+import com.example.memorycommen.common.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * 用户查询请求

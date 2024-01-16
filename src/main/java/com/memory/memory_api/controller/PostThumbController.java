@@ -1,9 +1,9 @@
 package com.memory.memory_api.controller;
 
 import com.example.memorycommen.model.entity.User;
-import com.memory.memory_api.common.BaseResponse;
-import com.memory.memory_api.common.ErrorCode;
-import com.memory.memory_api.common.ResultUtils;
+import com.example.memorycommen.common.BaseResponse;
+import com.example.memorycommen.common.ErrorCode;
+import com.example.memorycommen.common.ResultUtils;
 import com.memory.memory_api.exception.BusinessException;
 import com.memory.memory_api.model.dto.postthumb.PostThumbAddRequest;
 import com.memory.memory_api.service.PostThumbService;
@@ -53,5 +53,4 @@ public class PostThumbController {
         int result = postThumbService.doPostThumb(postId, loginUser);
         return ResultUtils.success(result);
     }
-
 }

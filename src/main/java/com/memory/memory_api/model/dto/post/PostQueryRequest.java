@@ -1,6 +1,6 @@
 package com.memory.memory_api.model.dto.post;
 
-import com.memory.memory_api.common.PageRequest;
+import com.example.memorycommen.common.PageRequest;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Data;

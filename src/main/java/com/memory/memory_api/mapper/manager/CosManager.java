@@ -1,4 +1,4 @@
-package com.memory.memory_api.manager;
+package com.memory.memory_api.mapper.manager;
 
 import com.memory.memory_api.config.CosClientConfig;
 import com.qcloud.cos.COSClient;

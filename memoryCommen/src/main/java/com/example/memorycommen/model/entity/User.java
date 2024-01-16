@@ -9,8 +9,7 @@ import java.util.Date;
 /**
  * 用户
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * @author memory
  */
 @TableName(value = "user")
 @Data
@@ -71,6 +70,21 @@ public class User implements Serializable {
      * sk
      */
     private String secretKey;
+
+    /**
+     * 累计充值金额
+     */
+    private Double rechargeBalance;
+
+    /**
+     * 余额
+     */
+    private Double balance;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 
     /**
      * 创建时间

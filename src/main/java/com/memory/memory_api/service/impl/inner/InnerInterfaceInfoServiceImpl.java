@@ -3,7 +3,7 @@ package com.memory.memory_api.service.impl.inner;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.memorycommen.model.entity.InterfaceInfo;
 import com.example.memorycommen.service.InnerInterfaceInfoService;
-import com.memory.memory_api.common.ErrorCode;
+import com.example.memorycommen.common.ErrorCode;
 import com.memory.memory_api.exception.BusinessException;
 import com.memory.memory_api.mapper.InterfaceInfoMapper;
 import org.apache.commons.lang3.StringUtils;

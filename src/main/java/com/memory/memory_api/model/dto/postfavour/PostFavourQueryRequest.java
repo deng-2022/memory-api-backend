@@ -1,7 +1,7 @@
 package com.memory.memory_api.model.dto.postfavour;
 
 import com.memory.memory_api.model.dto.post.PostQueryRequest;
-import com.memory.memory_api.common.PageRequest;
+import com.example.memorycommen.common.PageRequest;
 
 import java.io.Serializable;
 import lombok.Data;

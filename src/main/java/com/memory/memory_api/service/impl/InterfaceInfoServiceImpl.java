@@ -4,7 +4,7 @@ import com.alibaba.excel.util.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.memorycommen.model.entity.InterfaceInfo;
 import com.google.gson.Gson;
-import com.memory.memory_api.common.ErrorCode;
+import com.example.memorycommen.common.ErrorCode;
 import com.memory.memory_api.exception.BusinessException;
 import com.memory.memory_api.service.UserService;
 import com.memory.memory_api.mapper.InterfaceInfoMapper;
@@ -18,8 +18,7 @@ import javax.annotation.Resource;
 /**
  * 帖子服务实现
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * @author memory
  */
 @Service
 @Slf4j

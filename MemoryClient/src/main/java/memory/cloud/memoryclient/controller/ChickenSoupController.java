@@ -1,7 +1,7 @@
 package memory.cloud.memoryclient.controller;
 
-import memory.cloud.memoryclient.domain.Words;
 import memory.cloud.memoryclient.mapper.WordsMapper;
+import memory.cloud.memoryclient.model.domain.Words;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,5 +27,4 @@ public class ChickenSoupController {
         Integer type = words.getType();
         return wordsMapper.getRandomWord(type);
     }
-
 }

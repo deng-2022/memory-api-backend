@@ -3,10 +3,10 @@ package com.memory.memory_api.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.memorycommen.model.entity.User;
 import com.memory.memory_api.annotation.AuthCheck;
-import com.memory.memory_api.common.BaseResponse;
-import com.memory.memory_api.common.DeleteRequest;
-import com.memory.memory_api.common.ErrorCode;
-import com.memory.memory_api.common.ResultUtils;
+import com.example.memorycommen.common.BaseResponse;
+import com.example.memorycommen.common.DeleteRequest;
+import com.example.memorycommen.common.ErrorCode;
+import com.example.memorycommen.common.ResultUtils;
 import com.memory.memory_api.config.WxOpenConfig;
 import com.memory.memory_api.constant.UserConstant;
 import com.memory.memory_api.exception.BusinessException;
@@ -30,10 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * 用户接口
- *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * 用户管理
  */
 @RestController
 @RequestMapping("/user")
@@ -53,20 +50,23 @@ public class UserController {
     /**
      * 用户注册
      *
-     * @param userRegisterRequest
-     * @return
+     * @param userRegisterRequest 用户注册请求参数
+     * @return 用户 id
      */
     @PostMapping("/register")
     public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
+        // Controller 层对参数的校验
         if (userRegisterRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+
         String userAccount = userRegisterRequest.getUserAccount();
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
             return null;
         }
+
         long result = userService.userRegister(userAccount, userPassword, checkPassword);
         return ResultUtils.success(result);
     }
@@ -74,20 +74,23 @@ public class UserController {
     /**
      * 用户登录
      *
-     * @param userLoginRequest
-     * @param request
-     * @return
+     * @param userLoginRequest 用户登录请求参数
+     * @param request          request
+     * @return 登录用户信息
      */
     @PostMapping("/login")
     public BaseResponse<LoginUserVO> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
+        // Controller 层对参数的校验
         if (userLoginRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+
         String userAccount = userLoginRequest.getUserAccount();
         String userPassword = userLoginRequest.getUserPassword();
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+
         LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
         return ResultUtils.success(loginUserVO);
     }
@@ -139,8 +142,24 @@ public class UserController {
     @GetMapping("/get/login")
     public BaseResponse<LoginUserVO> getLoginUser(HttpServletRequest request) {
         User user = userService.getLoginUser(request);
-        return ResultUtils.success(userService.getLoginUserVO(user));
+        LoginUserVO loginUserVO = userService.getLoginUserVO(user);
+
+        return ResultUtils.success(loginUserVO);
     }
+
+    /**
+     * 获取当前登录用户
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/sign")
+    public BaseResponse<LoginUserVO> singleSignInTime(HttpServletRequest request) {
+
+        LoginUserVO inTime = userService.singleSignInTime(request);
+        return ResultUtils.success(inTime);
+    }
+
 
     // endregion
 

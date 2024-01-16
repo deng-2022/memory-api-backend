@@ -1,19 +1,19 @@
 package com.memory.memory_api.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.memorycommen.common.ErrorCode;
 import com.example.memorycommen.model.entity.User;
 import com.memory.memory_api.exception.BusinessException;
-import com.memory.memory_api.service.UserService;
-import com.memory.memory_api.common.ErrorCode;
-import com.memory.memory_api.constant.CommonConstant;
+import com.memory.memory_api.exception.ThrowUtils;
 import com.memory.memory_api.mapper.UserMapper;
 import com.memory.memory_api.model.dto.user.UserQueryRequest;
 import com.memory.memory_api.model.enums.UserRoleEnum;
 import com.memory.memory_api.model.vo.LoginUserVO;
 import com.memory.memory_api.model.vo.UserVO;
-import com.memory.memory_api.utils.SqlUtils;
+import com.memory.memory_api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.memory.memory_api.constant.UserConstant.SIGN_IN_TIME;
 import static com.memory.memory_api.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
@@ -41,7 +42,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 盐值，混淆密码
      */
-    private static final String SALT = "yupi";
+    private static final String SALT = "memory";
 
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
@@ -55,10 +56,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (userPassword.length() < 8 || checkPassword.length() < 8) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户密码过短");
         }
+
         // 密码和校验密码相同
         if (!userPassword.equals(checkPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "两次输入的密码不一致");
         }
+
         synchronized (userAccount.intern()) {
             // 账户不能重复
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -77,6 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             if (!saveResult) {
                 throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");
             }
+
             return user.getId();
         }
     }
@@ -93,6 +97,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (userPassword.length() < 8) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "密码错误");
         }
+
         // 2. 加密
         String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
         // 查询用户是否存在
@@ -105,6 +110,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.info("user login failed, userAccount cannot match userPassword");
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");
         }
+
         // 3. 记录用户的登录态
         request.getSession().setAttribute(USER_LOGIN_STATE, user);
         return this.getLoginUserVO(user);
@@ -153,15 +159,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 先判断是否已登录
         Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
         User currentUser = (User) userObj;
+
         if (currentUser == null || currentUser.getId() == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
+
         // 从数据库查询（追求性能的话可以注释，直接走缓存）
         long userId = currentUser.getId();
         currentUser = this.getById(userId);
         if (currentUser == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
+
         return currentUser;
     }
 
@@ -182,6 +191,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 从数据库查询（追求性能的话可以注释，直接走缓存）
         long userId = currentUser.getId();
         return this.getById(userId);
+    }
+
+    /**
+     * 每日签到
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public LoginUserVO singleSignInTime(HttpServletRequest request) {
+        User loginUser = getLoginUser(request);
+        Long loginUserId = loginUser.getId();
+
+        UpdateWrapper<User> uuw = new UpdateWrapper<>();
+        uuw.eq("id", loginUserId);
+        uuw.set("balance",loginUser.getBalance() + SIGN_IN_TIME);
+
+        boolean update = this.update(uuw);
+        ThrowUtils.throwIf(!update, ErrorCode.OPERATION_ERROR);
+
+        User user = this.getById(loginUserId);
+        LoginUserVO loginUserVO = this.getLoginUserVO(user);
+        return loginUserVO;
     }
 
     /**
@@ -258,7 +290,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String userProfile = userQueryRequest.getUserProfile();
         String userRole = userQueryRequest.getUserRole();
         String sortField = userQueryRequest.getSortField();
-        String sortOrder = userQueryRequest.getSortOrder();
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(id != null, "id", id);
         queryWrapper.eq(StringUtils.isNotBlank(unionId), "unionId", unionId);
@@ -266,8 +297,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.eq(StringUtils.isNotBlank(userRole), "userRole", userRole);
         queryWrapper.like(StringUtils.isNotBlank(userProfile), "userProfile", userProfile);
         queryWrapper.like(StringUtils.isNotBlank(userName), "userName", userName);
-        queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
-                sortField);
         return queryWrapper;
     }
 }

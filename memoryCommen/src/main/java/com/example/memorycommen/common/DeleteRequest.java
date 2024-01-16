@@ -1,7 +1,8 @@
-package com.memory.memory_api.common;
+package com.example.memorycommen.common;
+
+import lombok.Data;
 
 import java.io.Serializable;
-import lombok.Data;
 
 /**
  * 删除请求

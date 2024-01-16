@@ -6,7 +6,7 @@ import com.example.memorycommen.model.entity.Post;
 import com.example.memorycommen.model.entity.PostThumb;
 import com.example.memorycommen.model.entity.User;
 import com.memory.memory_api.service.PostService;
-import com.memory.memory_api.common.ErrorCode;
+import com.example.memorycommen.common.ErrorCode;
 import com.memory.memory_api.exception.BusinessException;
 import com.memory.memory_api.mapper.PostThumbMapper;
 import com.memory.memory_api.service.PostThumbService;

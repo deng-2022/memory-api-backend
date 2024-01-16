@@ -13,9 +13,6 @@ import java.util.List;
 
 /**
  * 用户服务
- *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 public interface UserService extends IService<User> {
 
@@ -34,7 +31,7 @@ public interface UserService extends IService<User> {
      *
      * @param userAccount  用户账户
      * @param userPassword 用户密码
-     * @param request
+     * @param request      request
      * @return 脱敏后的用户信息
      */
     LoginUserVO userLogin(String userAccount, String userPassword, HttpServletRequest request);
@@ -63,6 +60,8 @@ public interface UserService extends IService<User> {
      * @return
      */
     User getLoginUserPermitNull(HttpServletRequest request);
+
+    LoginUserVO singleSignInTime(HttpServletRequest request);
 
     /**
      * 是否为管理员

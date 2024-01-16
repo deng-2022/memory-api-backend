@@ -3,13 +3,12 @@ package com.memory.memory_api.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.memorycommen.common.ErrorCode;
 import com.example.memorycommen.model.entity.Post;
 import com.example.memorycommen.model.entity.PostFavour;
 import com.example.memorycommen.model.entity.PostThumb;
 import com.example.memorycommen.model.entity.User;
 import com.google.gson.Gson;
-import com.memory.memory_api.common.ErrorCode;
-import com.memory.memory_api.constant.CommonConstant;
 import com.memory.memory_api.exception.BusinessException;
 import com.memory.memory_api.exception.ThrowUtils;
 import com.memory.memory_api.mapper.PostFavourMapper;
@@ -21,7 +20,6 @@ import com.memory.memory_api.model.vo.PostVO;
 import com.memory.memory_api.model.vo.UserVO;
 import com.memory.memory_api.service.PostService;
 import com.memory.memory_api.service.UserService;
-import com.memory.memory_api.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -30,7 +28,6 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -103,7 +100,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         }
         String searchText = postQueryRequest.getSearchText();
         String sortField = postQueryRequest.getSortField();
-        String sortOrder = postQueryRequest.getSortOrder();
         Long id = postQueryRequest.getId();
         String title = postQueryRequest.getTitle();
         String content = postQueryRequest.getContent();
@@ -125,8 +121,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
         queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
         queryWrapper.eq("isDelete", false);
-        queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
-                sortField);
         return queryWrapper;
     }
 
@@ -144,7 +138,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         long current = postQueryRequest.getCurrent() - 1;
         long pageSize = postQueryRequest.getPageSize();
         String sortField = postQueryRequest.getSortField();
-        String sortOrder = postQueryRequest.getSortOrder();
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         // 过滤
         boolQueryBuilder.filter(QueryBuilders.termQuery("isDelete", 0));
@@ -193,7 +186,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         SortBuilder<?> sortBuilder = SortBuilders.scoreSort();
         if (StringUtils.isNotBlank(sortField)) {
             sortBuilder = SortBuilders.fieldSort(sortField);
-            sortBuilder.order(CommonConstant.SORT_ORDER_ASC.equals(sortOrder) ? SortOrder.ASC : SortOrder.DESC);
         }
         // 分页
         PageRequest pageRequest = PageRequest.of((int) current, (int) pageSize);

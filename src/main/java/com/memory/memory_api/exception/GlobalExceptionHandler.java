@@ -1,8 +1,8 @@
 package com.memory.memory_api.exception;
 
-import com.memory.memory_api.common.BaseResponse;
-import com.memory.memory_api.common.ErrorCode;
-import com.memory.memory_api.common.ResultUtils;
+import com.example.memorycommen.common.BaseResponse;
+import com.example.memorycommen.common.ErrorCode;
+import com.example.memorycommen.common.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

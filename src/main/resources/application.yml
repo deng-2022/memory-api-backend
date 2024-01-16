@@ -1,6 +1,4 @@
 # 公共配置文件
-# @author <a href="https://github.com/liyupi">程序员鱼皮</a>
-# @from <a href="https://yupi.icu">编程导航知识星球</a>
 server:
   address: 0.0.0.0
   port: 8101
@@ -26,19 +24,22 @@ spring:
     # store-type: redis
     # 30 天过期
     timeout: 2592000
+
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/memory_api
     username: root
     password: Dw990831
+
   # Redis 配置
   redis:
-    database: 0
-    host: localhost
     port: 6379
+    host: localhost
+    database: 0
     timeout: 5000
-    password: Dw990831
+#    password: Dw990831
+
   # Elasticsearch 配置
   # todo 需替换配置，然后取消注释
   #  elasticsearch:
@@ -60,6 +61,7 @@ mybatis-plus:
       logic-delete-field: isDelete # 全局逻辑删除的实体字段名
       logic-delete-value: 1 # 逻辑已删除值（默认为 1）
       logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+
 # 微信相关
 wx:
   # 微信公众平台
@@ -90,11 +92,6 @@ cos:
     region: xxx
     bucket: xxx
 
-memory-api:
-  client:
-    access-key: memory
-    secret-key: 12345678
-
 
 dubbo:
   application:
@@ -105,4 +102,12 @@ dubbo:
   registry:
     id: nacos-registry
     address: nacos://localhost:8848
+#memory:
+#  person:
+#    age: 19
+#    name: memory
 
+memory:
+  client:
+    access-key: memory
+    secret-key: 12345678

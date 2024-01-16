@@ -30,5 +30,9 @@ public interface UserConstant {
      */
     String BAN_ROLE = "ban";
 
+    /**
+     * 每日签到领取积分
+     */
+    int SIGN_IN_TIME = 100;
     // endregion
 }

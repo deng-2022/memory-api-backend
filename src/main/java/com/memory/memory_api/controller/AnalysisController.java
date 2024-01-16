@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.memorycommen.model.entity.InterfaceInfo;
 import com.example.memorycommen.model.entity.UserInterfaceInfo;
 import com.memory.memory_api.annotation.AuthCheck;
-import com.memory.memory_api.common.BaseResponse;
-import com.memory.memory_api.common.ErrorCode;
-import com.memory.memory_api.common.ResultUtils;
+import com.example.memorycommen.common.BaseResponse;
+import com.example.memorycommen.common.ErrorCode;
+import com.example.memorycommen.common.ResultUtils;
 import com.memory.memory_api.exception.BusinessException;
 import com.memory.memory_api.mapper.UserInterfaceInfoMapper;
 import com.memory.memory_api.model.vo.InterfaceInfoVO;
@@ -25,9 +25,6 @@ import java.util.stream.Collectors;
 
 /**
  * 分析控制器
- *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @RestController
 @RequestMapping("/analysis")
@@ -43,12 +40,15 @@ public class AnalysisController {
     @GetMapping("/top/interface/invoke")
     @AuthCheck(mustRole = "admin")
     public BaseResponse<List<InterfaceInfoVO>> listTopInvokeInterfaceInfo() {
+        // 获取被调用次数最多的接口
         List<UserInterfaceInfo> userInterfaceInfoList = userInterfaceInfoMapper.listTopInvokeInterfaceInfo(3);
+
         Map<Long, List<UserInterfaceInfo>> interfaceInfoIdObjMap = userInterfaceInfoList.stream()
                 .collect(Collectors.groupingBy(UserInterfaceInfo::getInterfaceInfoId));
 
         QueryWrapper<InterfaceInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("id", interfaceInfoIdObjMap.keySet());
+
         List<InterfaceInfo> list = interfaceInfoService.list(queryWrapper);
         if (CollectionUtils.isEmpty(list)) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR);
@@ -57,6 +57,7 @@ public class AnalysisController {
         List<InterfaceInfoVO> interfaceInfoVOList = list.stream().map(interfaceInfo -> {
             InterfaceInfoVO interfaceInfoVO = new InterfaceInfoVO();
             BeanUtils.copyProperties(interfaceInfo, interfaceInfoVO);
+
             int totalNum = interfaceInfoIdObjMap.get(interfaceInfo.getId()).get(0).getTotalNum();
             interfaceInfoVO.setTotalNum(totalNum);
             return interfaceInfoVO;

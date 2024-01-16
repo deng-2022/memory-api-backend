@@ -1,8 +1,8 @@
 package com.memory.memory_api.dataSource;
 
+import com.example.memorycommen.common.ErrorCode;
 import com.google.gson.Gson;
-import com.memory.clientsdk.client.MemoryClient;
-import com.memory.memory_api.common.ErrorCode;
+import com.memory.client.service.MemoryClientService;
 import com.memory.memory_api.exception.ThrowUtils;
 import com.memory.memory_api.mapper.InterfaceInfoMapper;
 import lombok.Data;
@@ -43,7 +43,7 @@ public class InterfaceIdSource {
      *
      * @param id 接口id
      */
-    public String invokeInterfaceById(Long id, String userRequestParams, MemoryClient tempClient) {
+    public String invokeInterfaceById(Long id, String userRequestParams, MemoryClientService memoryClientService) {
         // 初始化interfaceInfoIdList
 //        this.doInit();
         List<Long> interfaceInfoIdList = interfaceInfoMapper.getInterfaceInfoIdList();
@@ -54,11 +54,17 @@ public class InterfaceIdSource {
         Gson gson = new Gson();
         String result = "";
         if (id == 1646372563419L) {
-            com.memory.clientsdk.model.User user = gson.fromJson(userRequestParams, com.memory.clientsdk.model.User.class);
-            result = tempClient.getUserByPost(user);
+            // 复读机
+            com.memory.client.model.User user = gson.fromJson(userRequestParams, com.memory.client.model.User.class);
+            result = memoryClientService.getUserByPost(user);
         } else if (id == 1646335784547L) {
-            com.memory.clientsdk.model.Words words = gson.fromJson(userRequestParams, com.memory.clientsdk.model.Words.class);
-            result = tempClient.getRandomWord(words);
+            // 随机名言
+            com.memory.client.model.Words words = gson.fromJson(userRequestParams, com.memory.client.model.Words.class);
+            result = memoryClientService.getRandomWord(words);
+        } else if (id == 1649625077762L) {
+            // 随机壁纸
+            com.memory.client.model.Picture picture = gson.fromJson(userRequestParams, com.memory.client.model.Picture.class);
+            result = memoryClientService.getPictureListByType(picture);
         }
         return result;
     }

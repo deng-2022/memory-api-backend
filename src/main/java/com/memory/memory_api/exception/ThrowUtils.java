@@ -1,6 +1,6 @@
 package com.memory.memory_api.exception;
 
-import com.memory.memory_api.common.ErrorCode;
+import com.example.memorycommen.common.ErrorCode;
 
 /**
  * 抛异常工具类

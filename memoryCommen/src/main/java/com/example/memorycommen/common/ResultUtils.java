@@ -1,4 +1,4 @@
-package com.memory.memory_api.common;
+package com.example.memorycommen.common;
 
 /**
  * 返回工具类

@@ -46,7 +46,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
 
     @DubboReference
     private InnerUserInterfaceInfoService innerUserInterfaceInfoService;
-    private static final List<String> IP_WHITE_HOSTS = Arrays.asList("127.0.0.1:8090");
+    private static final List<String> IP_WHITE_HOSTS = Arrays.asList("/127.0.0.1:8090");
     private static final String INTERFACE_HOST = "http://localhost:8090";
 
     /**
@@ -58,8 +58,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        // 1. 用户发送请求到 API 网关
-        // 2. 请求日志
+        // 1. 用户发送请求到 API 网关, 获取请求日志
         ServerHttpRequest request = exchange.getRequest();
         log.info("请求唯一标识:{}", request.getId());
         String path = INTERFACE_HOST + request.getPath();
@@ -71,11 +70,12 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         log.info("请求来源地址:{}", sourceAddress);
         log.info("请求目标地址:{}", request.getRemoteAddress());
         ServerHttpResponse response = exchange.getResponse();
-        // 3. 黑白名单
+
+        // 2. 黑白名单
         if (!IP_WHITE_HOSTS.contains(sourceAddress)) {
             // 设置错误状态码并返回
-//            response.setStatusCode(HttpStatus.FORBIDDEN);
-//            return response.setComplete();
+            response.setStatusCode(HttpStatus.FORBIDDEN);
+            return response.setComplete();
         }
 
         // 4. 用户鉴权（判断 accessKey, secretKey 是否合法）
@@ -87,6 +87,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
             headers.setContentType(new MediaType(requestContentType.getType(), requestContentType.getSubtype(),
                     StandardCharsets.UTF_8));
         }
+
         String accessKey = headers.getFirst("accessKey");
         String nonce = headers.getFirst("nonce");
         String timestamp = headers.getFirst("timestamp");
@@ -98,17 +99,17 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         if (accessKey == null || !accessKey.equals("memory")) {
             return handleNoAuth(response);
         }
-        // accessKey是否分配给该用户
+        // accessKey 是否分配给该用户
         User invokeUser = innerUserService.getInvokeUser(accessKey);
         if (invokeUser == null) {
             return handleNoAuth(response);
         }
 
-        // 4.2.校验nonce 不能超过10000
+        // 4.2.校验 nonce 不能超过10000
         if (nonce == null || Long.parseLong(nonce) > 10000) {
             throw new RuntimeException("无权限");
         }
-        // 4.3.校验timestamp 不能超时5分钟
+        // 4.3.校验 timestamp 不能超时5分钟
         final long FIVE_MINUTES = 60L * 5L;
         if (timestamp == null || System.currentTimeMillis() / 1000L - Long.parseLong(timestamp) >= FIVE_MINUTES) {
             return handleNoAuth(response);
@@ -116,11 +117,11 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         // 4.4.校验body
         if (body == null) return handleNoAuth(response);
 
-        // 4.5.校验sign
-        // todo 从数据库中查询, secretKey是否分配给该用户
-        // secretKey是否分配给该用户
+        // 4.5.校验 secretKey
+        // 从数据库中查询, secretKey是否分配给该用户
         String secretKey = invokeUser.getSecretKey();
-        if (secretKey == null || !secretKey.equals("123456")) {
+
+        if (secretKey == null) {
             return handleNoAuth(response);
         }
 
@@ -158,7 +159,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
                 ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(originalResponse) {
                     @Override
                     public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
-                        //log.info("body instanceof Flux: {}", (body instanceof Flux));
+                        // log.info("body instanceof Flux: {}", (body instanceof Flux));
                         if (body instanceof Flux) {
                             Flux<? extends DataBuffer> fluxBody = Flux.from(body);
                             return super.writeWith(fluxBody.map(dataBuffer -> {
@@ -171,16 +172,16 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
                                 }
                                 byte[] content = new byte[dataBuffer.readableByteCount()];
                                 dataBuffer.read(content);
-                                DataBufferUtils.release(dataBuffer);//释放掉内存
+                                DataBufferUtils.release(dataBuffer);// 释放掉内存
                                 // 构建日志
                                 StringBuilder sb2 = new StringBuilder(200);
                                 sb2.append("<--- {} {} \n");
                                 List<Object> rspArgs = new ArrayList<>();
                                 rspArgs.add(originalResponse.getStatusCode());
-                                //rspArgs.add(requestUrl);
-                                String data = new String(content, StandardCharsets.UTF_8);//data
+                                // rspArgs.add(requestUrl);
+                                String data = new String(content, StandardCharsets.UTF_8);// data
                                 sb2.append(data);
-                                log.info(sb2.toString(), rspArgs.toArray());//log.info("<-- {} {}\n", originalResponse.getStatusCode(), data);
+                                log.info(sb2.toString(), rspArgs.toArray());// log.info("<-- {} {}\n", originalResponse.getStatusCode(), data);
                                 return bufferFactory.wrap(content);
                             }));
                         } else {
@@ -191,19 +192,30 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
                 };
                 return chain.filter(exchange.mutate().response(decoratedResponse).build());
             }
-            return chain.filter(exchange);//降级处理返回数据
+            return chain.filter(exchange);// 降级处理返回数据
         } catch (Exception e) {
             log.error("gateway log exception.\n" + e);
             return chain.filter(exchange);
         }
     }
 
+    /**
+     * 判断接口调用权限
+     *
+     * @param response 响应
+     * @return 返回响应
+     */
     public Mono<Void> handleNoAuth(ServerHttpResponse response) {
         // 设置状态码并返回
         response.setStatusCode(HttpStatus.FORBIDDEN);
         return response.setComplete();
     }
 
+    /**
+     * 获取请求优先级
+     *
+     * @return 返回优先级
+     */
     @Override
     public int getOrder() {
         // 设置过滤器的优先级

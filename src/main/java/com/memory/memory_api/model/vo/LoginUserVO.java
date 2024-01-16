@@ -1,8 +1,9 @@
 package com.memory.memory_api.model.vo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 已登录用户视图（脱敏）
@@ -37,6 +38,27 @@ public class LoginUserVO implements Serializable {
      * 用户角色：user/admin/ban
      */
     private String userRole;
+
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
+     * 邮箱
+     */
+    private Double balance;
+
+    /**
+     * ak
+     */
+    private String accessKey;
+
+    /**
+     * sk
+     */
+    private String secretKey;
+
 
     /**
      * 创建时间

@@ -2,7 +2,7 @@ package com.memory.memory_api.aop;
 
 import com.example.memorycommen.model.entity.User;
 import com.memory.memory_api.annotation.AuthCheck;
-import com.memory.memory_api.common.ErrorCode;
+import com.example.memorycommen.common.ErrorCode;
 import com.memory.memory_api.exception.BusinessException;
 import com.memory.memory_api.model.enums.UserRoleEnum;
 import com.memory.memory_api.service.UserService;
@@ -20,9 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 权限校验 AOP
- *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @Aspect
 @Component

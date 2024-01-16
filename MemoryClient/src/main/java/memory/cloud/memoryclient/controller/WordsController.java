@@ -1,6 +1,6 @@
 package memory.cloud.memoryclient.controller;
 
-import memory.cloud.memoryclient.domain.Words;
+import memory.cloud.memoryclient.model.domain.Words;
 import memory.cloud.memoryclient.mapper.WordsMapper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +25,7 @@ public class WordsController {
     @PostMapping("/one/random")
     public Words getRandomWord(@RequestBody Words words) {
         Integer type = words.getType();
+
         return wordsMapper.getRandomWord(type);
     }
-
 }

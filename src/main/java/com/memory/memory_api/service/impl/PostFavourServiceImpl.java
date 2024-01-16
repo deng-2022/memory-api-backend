@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.memorycommen.model.entity.Post;
 import com.example.memorycommen.model.entity.PostFavour;
 import com.example.memorycommen.model.entity.User;
-import com.memory.memory_api.common.ErrorCode;
+import com.example.memorycommen.common.ErrorCode;
 import com.memory.memory_api.exception.BusinessException;
 import com.memory.memory_api.service.PostFavourService;
 import com.memory.memory_api.service.PostService;
@@ -22,8 +22,7 @@ import javax.annotation.Resource;
 /**
  * 帖子收藏服务实现
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ * @author memory
  */
 @Service
 public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFavour>

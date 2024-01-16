@@ -4,18 +4,13 @@ import com.example.memorycommen.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
-
 /**
  * 帖子点赞服务测试
- *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
-@SpringBootTest
+// @SpringBootTest
 class PostThumbServiceTest {
 
     @Resource

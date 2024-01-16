@@ -1,7 +1,8 @@
 package com.memory.memory_api.model.dto.user;
 
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 用户更新请求
@@ -20,6 +21,11 @@ public class UserUpdateRequest implements Serializable {
      * 用户昵称
      */
     private String userName;
+
+    /**
+     * 余额
+     */
+    private Double balance;
 
     /**
      * 用户头像

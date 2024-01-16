@@ -1,11 +1,12 @@
 package com.memory.memory_api.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.memorycommen.common.*;
 import com.example.memorycommen.model.entity.InterfaceInfo;
 import com.example.memorycommen.model.entity.User;
-import com.memory.clientsdk.client.MemoryClient;
+import com.memory.client.service.MemoryClientService;
+import com.memory.client.service.impl.MemoryClientServiceImpl;
 import com.memory.memory_api.annotation.AuthCheck;
-import com.memory.memory_api.common.*;
 import com.memory.memory_api.constant.UserConstant;
 import com.memory.memory_api.dataSource.InterfaceIdSource;
 import com.memory.memory_api.exception.BusinessException;
@@ -37,7 +38,8 @@ public class InterfaceInfoController {
     @Resource
     private InterfaceInfoService interfaceInfoService;
     @Resource
-    private MemoryClient memoryClient;
+    private MemoryClientService memoryClientService;
+
     @Resource
     private UserService userService;
     @Resource
@@ -201,9 +203,10 @@ public class InterfaceInfoController {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
         // 判断该接口是否可以调用
-        com.memory.clientsdk.model.User user = new com.memory.clientsdk.model.User();
+        com.memory.client.model.User user = new com.memory.client.model.User();
         user.setName("test");
-        String username = memoryClient.getUserByPost(user);
+
+        String username = memoryClientService.getUserByPost(user);
         if (StringUtils.isBlank(username)) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口验证失败");
         }
@@ -258,6 +261,7 @@ public class InterfaceInfoController {
         if (interFaceInfoInvokeRequest == null || interFaceInfoInvokeRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
+
         // 接口id
         long id = interFaceInfoInvokeRequest.getId();
         String userRequestParams = interFaceInfoInvokeRequest.getUserRequestParams();
@@ -271,13 +275,14 @@ public class InterfaceInfoController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口已关闭");
         }
         // 用户调用接口
-        User LoginUser = userService.getLoginUser(request);
-        String accessKey = LoginUser.getAccessKey();
-        String secretKey = LoginUser.getSecretKey();
-        MemoryClient tempClient = new MemoryClient(accessKey, secretKey);
+        User loginUser = userService.getLoginUser(request);
+        String accessKey = loginUser.getAccessKey();
+        String secretKey = loginUser.getSecretKey();
 
-        //TODO 根据不同地址调用对应接口
-        String result = interfaceIdSource.invokeInterfaceById(id, userRequestParams, tempClient);
+        MemoryClientService tempMemoryClientService = new MemoryClientServiceImpl(accessKey, secretKey);
+
+        // TODO 根据不同地址调用对应接口
+        String result = interfaceIdSource.invokeInterfaceById(id, userRequestParams, tempMemoryClientService);
 
         return ResultUtils.success(result);
     }

@@ -1,6 +1,8 @@
 package com.memory.memory_api.manager;
 
 import javax.annotation.Resource;
+
+import com.memory.memory_api.mapper.manager.CosManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

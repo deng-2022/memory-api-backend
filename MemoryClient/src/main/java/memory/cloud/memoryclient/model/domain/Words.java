@@ -1,4 +1,4 @@
-package memory.cloud.memoryclient.domain;
+package memory.cloud.memoryclient.model.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

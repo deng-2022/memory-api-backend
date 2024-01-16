@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memory.cloud.memoryclient.mapper.WordsMapper">
 
-    <resultMap id="BaseResultMap" type="memory.cloud.memoryclient.domain.Words">
+    <resultMap id="BaseResultMap" type="memory.cloud.memoryclient.model.domain.Words">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="content" column="content" jdbcType="VARCHAR"/>
@@ -21,7 +21,7 @@
         type
     </sql>
 
-    <select id="getRandomWord" resultType="memory.cloud.memoryclient.domain.Words">
+    <select id="getRandomWord" resultType="memory.cloud.memoryclient.model.domain.Words">
         select * from words where type = #{type} ORDER BY RAND() LIMIT 1;;
     </select>
 </mapper>

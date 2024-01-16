@@ -1,7 +1,7 @@
 package memory.cloud.memoryclient.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import memory.cloud.memoryclient.domain.Words;
+import memory.cloud.memoryclient.model.domain.Words;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

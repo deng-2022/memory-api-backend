@@ -1,4 +1,4 @@
-package com.memory.memory_api.common;
+package com.example.memorycommen.common;
 
 import lombok.Data;
 

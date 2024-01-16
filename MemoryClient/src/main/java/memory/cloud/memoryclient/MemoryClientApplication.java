@@ -8,5 +8,4 @@ public class MemoryClientApplication {
     public static void main(String[] args) {
         SpringApplication.run(MemoryClientApplication.class, args);
     }
-
 }
