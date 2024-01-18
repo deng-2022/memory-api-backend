@@ -1,12 +1,13 @@
 # Docker 镜像构建
-# @author <a href="https://github.com/liyupi">程序员鱼皮</a>
-# @from <a href="https://yupi.icu">编程导航知识星球</a>
+# @author <a href="https://gitee.com/deng-2022">回忆如初</a>
+# @from <a href="https://deng-2022.gitee.io/blog/">Memory's Blog</a>
+
 FROM maven:3.8.1-jdk-8-slim as builder
 
 # Copy local code to the container image.
 WORKDIR /app
-COPY pom.xml .
-COPY src ./src
+COPY memory-api/pom.xml .
+COPY memory-api/src ./src
 
 # Build a release artifact.
 RUN mvn package -DskipTests

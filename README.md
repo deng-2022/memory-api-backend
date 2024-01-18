@@ -64,7 +64,7 @@ dubbo:
 startup.cmd -m standalone
 ```
 
-- ##### 依次启动 memory-api-backend、gateway、memory-client
+- ##### 依次启动 memory-api-backend、memory-gateway、memory-client
 
 #### 前端
 
